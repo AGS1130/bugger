@@ -20,13 +20,12 @@ Enemy.prototype.update = function (dt) {
         this.x = -100;
     } else {
         this.x += (Math.floor(Math.random() * 1000) + 100) * dt;
-        console.log(this.x);
     }
 };
 
 // Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+Enemy.prototype.render = function (sprite) {
+    ctx.drawImage(Resources.get(sprite), this.x, this.y);
 };
 
 // Check enemy collisions with player
@@ -41,21 +40,32 @@ Enemy.prototype.checkCollisions = function (player) {
     }
 }
 
-// Now write your own player class
 // Player's avatar
 var Player = function () {
     this.x = 200;
     this.y = 310;
-    // The image/sprite for the player contains multiple images
-    // {'char-': ['boy', 'cat-girl', 'horn-girl', 'pink-girl', 'princess-girl']}
-    this.sprite = 'images/char-boy.png';
+
+    // The image/sprite player will choose as their avatar
+    this.playerChoice = 0;
 };
 
 Player.prototype.update = function () {
-
+    this.lives = 3;
+    this.points = 0;
 }
 
-Player.prototype.render = function () {
+Player.prototype.render = function (playerChoice) {
+    this.playerChoice = playerChoice;
+    this.charObj = {
+        0: 'boy',
+        1: 'cat-girl',
+        2: 'horn-girl',
+        3: 'pink-girl',
+        4: 'princess-girl'
+    };
+
+    this.sprite = 'images/char-' + this.charObj[this.playerChoice] + '.png';
+
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 

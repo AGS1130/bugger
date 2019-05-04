@@ -17,16 +17,21 @@ var Engine = (function (global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas element's height/width and add it to the DOM.
+     * Add player modal that will be used for character selection
+     * and a pause menu that will show the stage level, points, and lives.
      */
     var doc = global.document,
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
+        div = doc.createElement('div'),
         lastTime;
 
     canvas.width = 505;
     canvas.height = 606;
+    div.classList = 'modal-content';
     doc.body.appendChild(canvas);
+    doc.querySelector('#gameModal').appendChild(div);
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -144,6 +149,8 @@ var Engine = (function (global) {
             }
         }
 
+
+
         renderEntities();
     }
 
@@ -159,7 +166,23 @@ var Engine = (function (global) {
             enemy.render();
         });
 
-        player.render();
+        /**
+         * Set playerChoice variable to undefined.
+         * Do a loop while the player has not made a choice
+         * for their avatar.
+         */
+        var playerChoice;
+        var $avatarImgs = document.querySelectorAll('.modal-content img');
+        do {
+            $avatarImgs.forEach(function ($avatar) {
+                $avatar.addEventListener('click', function (e) {
+                    playerChoice = e.target.id;
+                    document.querySelector('#gameModal').style.display = 'block';
+                });
+            });
+        } while (typeof playerChoice === 'undefined')
+
+        player.render(playerChoice);
     }
 
     /* This function does nothing but it could have been a good place to
@@ -179,7 +202,11 @@ var Engine = (function (global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png'
     ]);
     Resources.onReady(init);
 
