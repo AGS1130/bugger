@@ -50,8 +50,8 @@ var Player = function () {
 };
 
 Player.prototype.update = function () {
-    this.lives = 3;
-    this.points = 0;
+    // Constantly checks if the playe reached the end of the board
+    this.win();
 }
 
 Player.prototype.render = function (playerChoice) {
@@ -67,6 +67,17 @@ Player.prototype.render = function (playerChoice) {
     this.sprite = 'images/char-' + this.charObj[this.playerChoice] + '.png';
 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+Player.prototype.win = function () {
+    if (this.y === -50) {
+        var $modal = document.querySelector('.modal');
+        $modal.style.display = "block";
+        $modal.style.opacity = "1";
+
+        // Make sure game enemies disappear on background
+        allEnemies = [];
+    }
 }
 
 Player.prototype.handleInput = function (direction) {
@@ -89,7 +100,14 @@ Player.prototype.handleInput = function (direction) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var allEnemies = [new Enemy(0, 50), new Enemy(0, 140), new Enemy(0, 220)];
+var allEnemies = [
+    new Enemy(0, 50),
+    new Enemy(150, 50),
+    new Enemy(0, 140),
+    new Enemy(125, 140),
+    new Enemy(0, 220),
+    new Enemy(75, 220),
+];
 var player = new Player();
 
 
