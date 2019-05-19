@@ -18,10 +18,7 @@
              * loop through each value and call our image
              * loader on that image file
              */
-            urlOrArr.forEach(function (url, index) {
-                if (url.startsWith('images/char-')) {
-                    setAvatarMenu(url, index);
-                }
+            urlOrArr.forEach(function (url) {
                 _load(url);
             });
         } else {
@@ -31,17 +28,6 @@
              */
             _load(urlOrArr);
         }
-
-
-    }
-
-    function setAvatarMenu(url, index) {
-        var $modalContent = document.querySelector('#gameModal .modal-content');
-        var avatarImg = document.createElement('img');
-        avatarImg.setAttribute('src', url);
-        avatarImg.setAttribute('id', index);
-
-        $modalContent.appendChild(avatarImg);
     }
 
     /* This is our private image loader function, it is
